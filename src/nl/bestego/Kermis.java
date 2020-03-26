@@ -6,14 +6,11 @@ import java.util.Random;
 public class Kermis {
 
     ArrayList<Attractie> attracties = new ArrayList<>();
+    ArrayList<Bezoeker> bezoekers = new ArrayList<>();
 
     Kermis() {
-        attracties.add(new Attractie("botsauto"));
-        attracties.add(new Attractie("spin"));
-        attracties.add(new Attractie("spiegelpaleis"));
-        attracties.add(new Attractie("spookhuis"));
-        attracties.add(new Attractie("hawaii"));
-        attracties.add(new Attractie("ladderklimmen"));
+        registreerAttracties();
+
     }
 
     private void startStopRandomAttractie(String actie) {
@@ -23,7 +20,8 @@ public class Kermis {
             case "start":
                 if (!attractie.isActief()) attractie.start();
                 break;
-            case "stop":if (attractie.isActief()) attractie.stop();
+            case "stop":
+                if (attractie.isActief()) attractie.stop();
                 break;
         }
         if (attractie.isActief()) {
@@ -60,8 +58,22 @@ public class Kermis {
             } catch (InterruptedException ie) {
                 ;
             }
-
             toonActiviteiten();
+        }
+    }
+
+    void registreerAttracties() {
+        attracties.add(new Attractie("botsauto"));
+        attracties.add(new Attractie("spin"));
+        attracties.add(new Attractie("spiegelpaleis"));
+        attracties.add(new Attractie("spookhuis"));
+        attracties.add(new Attractie("hawaii"));
+        attracties.add(new Attractie("ladderklimmen"));
+    }
+
+    void registreerBezoeker(int aantal){
+        for (int b=1;b<=aantal;b++){
+            bezoekers.add(new Bezoeker());
         }
     }
 

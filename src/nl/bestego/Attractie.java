@@ -1,8 +1,17 @@
 package nl.bestego;
 
+import java.util.ArrayList;
+
 public class Attractie {
-    double prijs;
-    double oppervlakte;
+    private ArrayList<Bezoeker> bezoeker = new ArrayList<>();  //todo: kan ook getal zijn ipv opject
+    private int capaciteit;     // max aantal bezoekers per ronde
+    private double prijs;
+    private int kaartjesVolgendeRonde;
+    private int kaartjesTotaal;
+    private double minimumBezetting = 0.6;  // bij deze bezettingsgraad start attractie indien wachtrij leeg
+    private double omzet;
+    private double oppervlakte;
+    private ArrayList<Bezoeker> wachtrij = new ArrayList<>();
     private String naam;
     private boolean actief = false;
 
