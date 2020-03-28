@@ -37,10 +37,16 @@ public class Kermis {
         System.out.println(toonDatumTijd());
         String formatHeader = "%20s | %10s | %10s | %10s | %10s | %10s\n";
         String formatAttractie = "%20s | %10s | %10s | %10s | %10.2f | %10s\n";
-        System.out.printf(formatHeader, "Naam attractie","Draait","Wachtrij","Kaartjes","Omzet","Onderhoud");
+        System.out.printf(formatHeader, "Naam attractie", "Draait", "Wachtrij", "Kaartjes", "Omzet", "Onderhoud");
+        String onderhoud ;
         for (Attractie attractie : attracties) {
-            System.out.printf(formatAttractie, attractie.getNaam(),attractie.isActief()?"Ja":"Nee",attractie.getWachtrij()+"/"+attractie.getCapaciteit(),
-                    attractie.getKaartjes(),attractie.getOmzet(), "-");
+            if (attractie instanceof RisicoRijkeAttractie) {
+                onderhoud = ((RisicoRijkeAttractie) attractie).getRondes() + "/" + ((RisicoRijkeAttractie) attractie).getDraailimiet();
+            } else {
+                onderhoud = "-";
+            }
+            System.out.printf(formatAttractie, attractie.getNaam(), attractie.isActief() ? "Ja" : "Nee", attractie.getWachtrij() + "/" + attractie.getCapaciteit(),
+                    attractie.getKaartjes(), attractie.getOmzet(), onderhoud);
         }
         System.out.printf("Totale omzet: %.2f\n", kassa.getOmzet());
     }
@@ -72,9 +78,10 @@ public class Kermis {
 
     /**
      * for now: dummy DateTime implementation
+     *
      * @return : datum en tijd
      */
-    private String toonDatumTijd(){
+    private String toonDatumTijd() {
         return ("\"Tijd\": " + ronde);
     }
 

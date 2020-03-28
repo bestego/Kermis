@@ -1,15 +1,15 @@
 package nl.bestego;
 
-abstract class Attractie {
+public class Attractie {
     int capaciteit;     // max aantal bezoekers per ronde
     String naam;
     double oppervlakte;
     double prijs;
-    private boolean actief = false;
+    boolean actief = false;
+    int wachtrij;
     private int kaartjes;       // verkochte kaartjes
     private double minimumBezetting = 0.6;  // bij deze bezettingsgraad start attractie indien wachtrij leeg
     private double omzet;
-    private int wachtrij;
     private int wachtronde;
 
 
@@ -45,6 +45,13 @@ abstract class Attractie {
         wachtrij = wachtrij > capaciteit ? wachtrij - capaciteit : 0;
         System.out.println("(Attractie " + naam + " is gestart)");
         actief = true;
+        //start(isActief(), getCapaciteit(), getWachtrij());
+    }
+
+    public void start(boolean actief, int capaciteit, int wachtrij) {
+        this.wachtrij = wachtrij > capaciteit ? wachtrij - capaciteit : 0;
+        System.out.println("(Attractie " + naam + " is gestart)");
+        this.actief = true;
     }
 
     public void stop() {
