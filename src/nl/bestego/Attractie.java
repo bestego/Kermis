@@ -1,15 +1,16 @@
 package nl.bestego;
 
-abstract class Attractie implements Klok {
-    boolean actief = false;
+abstract class Attractie {
     int capaciteit;     // max aantal bezoekers per ronde
-    int kaartjes;       // verkochte kaartjes
-    double minimumBezetting = 0.6;  // bij deze bezettingsgraad start attractie indien wachtrij leeg
     String naam;
-    double omzet;
     double oppervlakte;
     double prijs;
-    int wachtrij;
+    private boolean actief = false;
+    private int kaartjes;       // verkochte kaartjes
+    private double minimumBezetting = 0.6;  // bij deze bezettingsgraad start attractie indien wachtrij leeg
+    private double omzet;
+    private int wachtrij;
+    private int wachtronde;
 
 
     Attractie() {
@@ -32,6 +33,8 @@ abstract class Attractie implements Klok {
 
     public void bezoekerKooptKaartje(int aantal) {
         wachtrij += aantal;
+        kaartjes += aantal;
+        omzet += aantal * prijs;
     }
 
     private boolean checkVoldoendeBezoekers() {
@@ -49,12 +52,35 @@ abstract class Attractie implements Klok {
         actief = false;
     }
 
-    public void vervolg() {
-        if (!isActief() && checkVoldoendeBezoekers()) start();
-        if (isActief() && checkVoldoendeBezoekers()) stop();
+    public void verder() {
+        if (isActief()) {
+            if (checkVoldoendeBezoekers()) {
+                start();
+            } else {
+                stop();
+            }
+        } else {
+            if (checkVoldoendeBezoekers()) start();
+        }
     }
 
     public String toString() {
         return naam;
+    }
+
+    public int getCapaciteit() {
+        return capaciteit;
+    }
+
+    public int getKaartjes() {
+        return kaartjes;
+    }
+
+    public double getOmzet() {
+        return omzet;
+    }
+
+    public int getWachtrij() {
+        return wachtrij;
     }
 }
