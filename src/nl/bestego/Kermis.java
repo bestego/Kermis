@@ -5,6 +5,7 @@ import java.util.Random;
 
 public class Kermis {
 
+    static boolean geopend = false;
     ArrayList<Attractie> attracties = new ArrayList<>();
     Kassa kassa = new Kassa();
     int ronde;
@@ -38,7 +39,7 @@ public class Kermis {
         String formatHeader = "%20s | %10s | %10s | %10s | %10s | %10s\n";
         String formatAttractie = "%20s | %10s | %10s | %10s | %10.2f | %10s\n";
         System.out.printf(formatHeader, "Naam attractie", "Draait", "Wachtrij", "Kaartjes", "Omzet", "Onderhoud");
-        String onderhoud ;
+        String onderhoud;
         for (Attractie attractie : attracties) {
             if (attractie instanceof RisicoRijkeAttractie) {
                 onderhoud = ((RisicoRijkeAttractie) attractie).getRondes() + "/" + ((RisicoRijkeAttractie) attractie).getDraailimiet();
@@ -51,21 +52,80 @@ public class Kermis {
         System.out.printf("Totale omzet: %.2f\n", kassa.getOmzet());
     }
 
-    public void start() { //ToDo: CONTINUE here; ombouwen naar klok / kaartjes distributie(bezoekerKooptKaartje
+    public void start() {
+        Kermis.geopend = true;
 
         InputHandler ih = new InputHandler();
+        int aantalKaartjes;
+        LOOP:
         do {
+            aantalKaartjes = 0;
             ronde++;
-            int aantalKaartjes = Integer.valueOf(ih.getInput("[0-9]+", "Hoeveel kaartjes per attractie voor volgende ronde?:", "ongeldige invoer, probeer opnieww:"));
+            String prompt = "Maak een keuze voor de volgende ronde:\n";
+            prompt += "\t- aantal bezoekers per attractie 0..99 of (R)andom\n";
+            prompt += "\t- (O)nderhoud uitvoeren\n\t- (S)toppen\n";
+            String input = ih.getInput("[0-9]+|[a-zA-Z]+", prompt, "ongeldige invoer, probeer opnieww:");
 
-            for (Attractie attractie : attracties) {
-                attractie.bezoekerKooptKaartje(aantalKaartjes);
-                attractie.verder();
+            if (input.toLowerCase().matches("[a-z]+")) {
+                switch (input.toLowerCase().charAt(0)) {
+                    case 'o':
+                        onderhoudUitvoeren();
+                        break;
+                    case 'r': verdeelBezoekers();
+                        System.out.println("Todo: nog implementeren");
+                        break;
+                    case 's':
+                        stop();
+                        break LOOP;
+                    default:
+                        System.out.println("Programmafout: onbekende keuze: " + input);
+                }
             }
+
+            if (input.matches("[0-9]+")) {
+                aantalKaartjes = Integer.valueOf(input);
+                verdeelBezoekers(aantalKaartjes);
+            }
+
             kassa.setOmzet(kassa.verzamelOmzet(attracties));
             toonActiviteiten();
         } while (true);
     }
+
+    public void stop() {
+        Kermis.geopend = false;
+        for (Attractie attractie : attracties) {
+            attractie.stop();
+        }
+        kassa.setOmzet(kassa.verzamelOmzet(attracties));
+        toonActiviteiten();
+    }
+
+    public void onderhoudUitvoeren() {
+        for (Attractie attractie : attracties) {
+            if (attractie instanceof RisicoRijkeAttractie) {
+                ((RisicoRijkeAttractie) attractie).opstellingskeuring();
+            }
+        }
+    }
+
+    private void verdeelBezoekers(int aantal) {
+        for (Attractie attractie : attracties) {
+            attractie.bezoekerKooptKaartje(aantal);
+            attractie.verder();
+        }
+    }
+
+    private void verdeelBezoekers() {
+        Random rnd = new Random();
+        int aantal = 0;
+        for (Attractie attractie : attracties) {
+            aantal = (int)(Math.round(rnd.nextFloat()*attractie.capaciteit*1.7));
+            attractie.bezoekerKooptKaartje(aantal);
+            attractie.verder();
+        }
+    }
+
 
     void registreerAttracties() {
         attracties.add(new Botsautos("botsauto-1", 2.50, 10, 400));

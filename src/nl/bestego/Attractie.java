@@ -11,6 +11,7 @@ public class Attractie {
     private double minimumBezetting = 0.6;  // bij deze bezettingsgraad start attractie indien wachtrij leeg
     private double omzet;
     private int wachtronde;
+    private int wachtLimiet = 2;
 
 
     Attractie() {
@@ -43,20 +44,24 @@ public class Attractie {
 
     public void start() {
         wachtrij = wachtrij > capaciteit ? wachtrij - capaciteit : 0;
-        System.out.println("(Attractie " + naam + " is gestart)");
-        actief = true;
+        System.out.printf("(%s: gestart)\n", naam);
+                actief = true;
         //start(isActief(), getCapaciteit(), getWachtrij());
     }
 
     public void start(boolean actief, int capaciteit, int wachtrij) {
         this.wachtrij = wachtrij > capaciteit ? wachtrij - capaciteit : 0;
-        System.out.println("(Attractie " + naam + " is gestart)");
+        System.out.printf("(%s: gestart)\n", naam);
         this.actief = true;
     }
 
     public void stop() {
-        System.out.println("(Attractie " + naam + " is gestopt)");
+        System.out.printf("(%s: gestopt)\n", naam);
         actief = false;
+        if ( ! Kermis.geopend) {
+            bezoekerKooptKaartje(-wachtrij);
+            System.out.printf("(%s: Kermis gestopt, bezoekers in de wachtrij krijgen geld terug)\n", naam);
+        }
     }
 
     public void verder() {
@@ -67,7 +72,16 @@ public class Attractie {
                 stop();
             }
         } else {
-            if (checkVoldoendeBezoekers()) start();
+            if (checkVoldoendeBezoekers()) {
+                start();
+            } else {
+                if ( wachtronde >= wachtLimiet){
+                    wachtronde = 0;
+                    start();
+                } else {
+                    wachtronde++;
+                }
+            }
         }
     }
 

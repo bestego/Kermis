@@ -21,7 +21,7 @@ public class RisicoRijkeAttractie extends Attractie {
         this.rondes = rondes;
     }
 
-    public void Opstellingskeuring() {
+    public void opstellingskeuring() {
         rondes = 0;
     }
 
@@ -33,8 +33,18 @@ public class RisicoRijkeAttractie extends Attractie {
         }
     }
 
-    public void bezoekerKooptKaartje(int aantal){
-        if (rondes <= draailimiet){
+    public void verder() {
+        if (isActief() && rondes > draailimiet) {
+            stop();
+            bezoekerKooptKaartje(-getWachtrij());
+            System.out.printf("(%s: gestopt voor onderhoud, klanten krijgen geld terug)\n", getNaam());
+        } else {
+            super.verder();
+        }
+    }
+
+    public void bezoekerKooptKaartje(int aantal) {
+        if (rondes <= draailimiet || aantal < 0) {
             super.bezoekerKooptKaartje(aantal);
         }
     }
