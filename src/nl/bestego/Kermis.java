@@ -48,13 +48,13 @@ public class Kermis {
             } else {
                 onderhoud = "-";
             }
-            if (attractie instanceof GokAttractie){
-               belasting = ((GokAttractie)attractie).getKansSpelBelasting();
+            if (attractie instanceof GokAttractie) {
+                belasting = ((GokAttractie) attractie).getKansSpelBelasting();
             } else {
                 belasting = 0;
             }
             System.out.printf(formatAttractie, attractie.getNaam(), attractie.isActief() ? "Ja" : "Nee", attractie.getWachtrij() + "/" + attractie.getCapaciteit(),
-                    attractie.getKaartjes(), attractie.getOmzet(), onderhoud, belasting == 0 ? "-" : String.format("%10.2f",belasting));
+                    attractie.getKaartjes(), attractie.getOmzet(), onderhoud, belasting == 0 ? "-" : String.format("%10.2f", belasting));
         }
         //System.out.printf("Totale omzet: %.2f | Belating\n", kassa.getOmzet()-kassa.getBetaaldeKansSpelBelasting());
         toonBelastingen();
@@ -62,12 +62,12 @@ public class Kermis {
 
     }
 
-    private void toonBelastingen(){
+    private void toonBelastingen() {
         String formatHeader = "\n%20s | %20s | %20s \n";
-        System.out.printf(formatHeader,"Netto omzet","Betaalde belasting","Te betalen belasting" );
+        System.out.printf(formatHeader, "Netto omzet", "Betaalde belasting", "Te betalen belasting");
         String formatContent = "%20.2f | %20.2f | %20.2f \n";
-        System.out.printf(formatContent,kassa.getOmzet()-kassa.getBetaaldeKansSpelBelasting(),
-                kassa.getBetaaldeKansSpelBelasting(), (kassa.getOmzetKansSpelBelasting()-kassa.getOmzetWaaroverBelastingIsBetaald())*belastinginspecteur.kansSpelBelastingPercentage);
+        System.out.printf(formatContent, kassa.getOmzet() - kassa.getBetaaldeKansSpelBelasting(),
+                kassa.getBetaaldeKansSpelBelasting(), (kassa.getOmzetKansSpelBelasting() - kassa.getOmzetWaaroverBelastingIsBetaald()) * belastinginspecteur.kansSpelBelastingPercentage);
     }
 
     public void start() {
@@ -79,7 +79,7 @@ public class Kermis {
         do {
             aantalKaartjes = 0;
             ronde++;
-            String prompt = "\nMaak een keuze voor de volgende ronde:\n";
+            String prompt = "\nMaak één keuze voor de volgende ronde:\n";
             prompt += "\t- aantal bezoekers per attractie 0..99 of (R)andom\n";
             prompt += "\t- (B)elasting innen\n";
             prompt += "\t- (O)nderhoud uitvoeren\n";
@@ -88,12 +88,14 @@ public class Kermis {
 
             if (input.toLowerCase().matches("[a-z]+")) {
                 switch (input.toLowerCase().charAt(0)) {
-                    case 'b': belastinginspecteur.belastingInnen(kassa);
+                    case 'b':
+                        belastinginspecteur.belastingInnen(kassa);
                         break;
                     case 'o':
                         onderhoudUitvoeren();
                         break;
-                    case 'r': verdeelBezoekers();
+                    case 'r':
+                        verdeelBezoekers();
                         System.out.println("Todo: nog implementeren");
                         break;
                     case 's':
@@ -104,7 +106,7 @@ public class Kermis {
                 }
             }
 
-            System.out.println("\n===== VERANDERINGEN OP DE KERMIS =====");
+            System.out.println("\n===== MELDINGEN VANAF DE KERMIS =====");
             if (input.matches("[0-9]+")) {
                 aantalKaartjes = Integer.valueOf(input);
                 verdeelBezoekers(aantalKaartjes);
@@ -135,7 +137,11 @@ public class Kermis {
     private void verdeelBezoekers(int aantal) {
         for (Attractie attractie : attracties) {
             attractie.bezoekerKooptKaartje(aantal);
-            attractie.verder();
+            try {
+                attractie.verder();
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
         }
     }
 
@@ -143,13 +149,17 @@ public class Kermis {
         Random rnd = new Random();
         int aantal = 0;
         for (Attractie attractie : attracties) {
-            aantal = (int)(Math.round(rnd.nextFloat()*attractie.capaciteit*1.7));
+            aantal = (int) (Math.round(rnd.nextFloat() * attractie.capaciteit * 1.7));
             attractie.bezoekerKooptKaartje(aantal);
-            attractie.verder();
+            try {
+                attractie.verder();
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
         }
     }
 
-    private void belastingInnen(){
+    private void belastingInnen() {
         for (Attractie attractie : attracties) {
             if (attractie instanceof GokAttractie) {
                 ((GokAttractie) attractie).betaalKansSpelBelasting();

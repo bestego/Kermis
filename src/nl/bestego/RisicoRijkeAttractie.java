@@ -33,11 +33,12 @@ public class RisicoRijkeAttractie extends Attractie {
         }
     }
 
-    public void verder() {
+    public void verder() throws Exception{
         if (isActief() && rondes > draailimiet) {
             stop();
             bezoekerKooptKaartje(-getWachtrij());
-            System.out.printf("(%s: gestopt voor onderhoud, klanten krijgen geld terug)\n", getNaam());
+            System.out.printf("%s: gestopt voor onderhoud, klanten krijgen geld terug\n", getNaam());
+            throw new Exception(getNaam() + ": heeft onderhoud nodig");
         } else {
             super.verder();
         }

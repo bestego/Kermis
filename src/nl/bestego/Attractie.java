@@ -54,27 +54,27 @@ public class Attractie {
 
     public void start() {
         wachtrij = wachtrij > capaciteit ? wachtrij - capaciteit : 0;
-        System.out.printf("(%s: gestart)\n", naam);
+        System.out.printf("%s: gestart\n", naam);
                 actief = true;
         //start(isActief(), getCapaciteit(), getWachtrij());
     }
 
     public void start(boolean actief, int capaciteit, int wachtrij) {
         this.wachtrij = wachtrij > capaciteit ? wachtrij - capaciteit : 0;
-        System.out.printf("(%s: gestart)\n", naam);
+        System.out.printf("%s: gestart\n", naam);
         this.actief = true;
     }
 
     public void stop() {
-        System.out.printf("(%s: gestopt)\n", naam);
+        System.out.printf("%s: gestopt\n", naam);
         actief = false;
         if ( ! Kermis.geopend) {
             bezoekerKooptKaartje(-wachtrij);
-            System.out.printf("(%s: Kermis gestopt, bezoekers in de wachtrij krijgen geld terug)\n", naam);
+            System.out.printf("%s: Kermis gestopt, bezoekers in de wachtrij krijgen geld terug\n", naam);
         }
     }
 
-    public void verder() {
+    public void verder() throws Exception{
         if (isActief()) {
             if (checkVoldoendeBezoekers()) {
                 start();
