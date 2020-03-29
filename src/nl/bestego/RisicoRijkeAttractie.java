@@ -8,17 +8,11 @@ public class RisicoRijkeAttractie extends Attractie {
         return draailimiet;
     }
 
-    public void setDraailimiet(int draailimiet) {
-        this.draailimiet = draailimiet;
-    }
 
     public int getRondes() {
         return rondes;
     }
 
-    public void setRondes(int rondes) {
-        this.rondes = rondes;
-    }
 
     public void opstellingskeuring() {
         rondes = 0;

@@ -8,11 +8,11 @@ public class Attractie {
     boolean actief = false;
     int wachtrij;
     private int kaartjes;       // verkochte kaartjes
-    private double minimumBezetting = 0.6;  // bij deze bezettingsgraad start attractie indien wachtrij leeg
+    final private double minimumBezetting = 0.6;  // bij deze bezettingsgraad start attractie indien wachtrij leeg
     private double omzet;
-    double omzetWaaroverBelastingIsGeheven;
+    private double omzetWaaroverBelastingIsGeheven;
     private int wachtronde;
-    private int wachtLimiet = 2;
+    final private int wachtLimiet = 2;
 
     public double getOmzetWaaroverBelastingIsGeheven() {
         return omzetWaaroverBelastingIsGeheven;
@@ -23,16 +23,7 @@ public class Attractie {
     }
 
 
-
-
     Attractie() {
-    }
-
-    Attractie(String naam, double prijs, int capaciteit, double oppervlakte) {
-        this.naam = naam;
-        this.prijs = prijs;
-        this.capaciteit = capaciteit;
-        this.oppervlakte = oppervlakte;
     }
 
     public String getNaam() {
@@ -57,19 +48,12 @@ public class Attractie {
         wachtrij = wachtrij > capaciteit ? wachtrij - capaciteit : 0;
         System.out.printf("%s: gestart\n", naam);
                 actief = true;
-        //start(isActief(), getCapaciteit(), getWachtrij());
-    }
-
-    public void start(boolean actief, int capaciteit, int wachtrij) {
-        this.wachtrij = wachtrij > capaciteit ? wachtrij - capaciteit : 0;
-        System.out.printf("%s: gestart\n", naam);
-        this.actief = true;
     }
 
     public void stop() {
         System.out.printf("%s: gestopt\n", naam);
         actief = false;
-        if ( ! Kermis.geopend) {
+        if ( ! Kermis.geopend) {  //ToDo: pass argument top stop methos instead
             bezoekerKooptKaartje(-wachtrij);
             System.out.printf("%s: Kermis gestopt, bezoekers in de wachtrij krijgen geld terug\n", naam);
         }

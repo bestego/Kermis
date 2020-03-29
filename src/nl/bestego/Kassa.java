@@ -30,24 +30,12 @@ public class Kassa {
         return omzetKansSpelBelasting;
     }
 
-    public void setOmzetKansSpelBelasting(double omzetKansSpelBelasting) {
-        this.omzetKansSpelBelasting = omzetKansSpelBelasting;
-    }
-
     public double getOmzetWaaroverBelastingIsBetaald() {
         return omzetWaaroverBelastingIsBetaald;
     }
 
-    public void setOmzetWaaroverBelastingIsBetaald(double omzetWaaroverBelastingIsBetaald) {
-        this.omzetWaaroverBelastingIsBetaald = omzetWaaroverBelastingIsBetaald;
-    }
-
     public double getBetaaldeKansSpelBelasting() {
         return betaaldeKansSpelBelasting;
-    }
-
-    public void setBetaaldeKansSpelBelasting(double betaaldeKansSpelBelasting) {
-        this.betaaldeKansSpelBelasting = betaaldeKansSpelBelasting;
     }
 
     public void betaalKansSpelBelasting(double percentage){
