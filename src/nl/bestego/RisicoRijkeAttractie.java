@@ -4,7 +4,6 @@ public class RisicoRijkeAttractie extends Attractie {
     int draailimiet;
     int rondes;
 
-
     public int getDraailimiet() {
         return draailimiet;
     }

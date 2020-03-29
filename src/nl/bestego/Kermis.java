@@ -37,9 +37,9 @@ public class Kermis {
     private void toonStatus() {
         System.out.println("\n===== STATUS VAN DE KERMIS =====");
         System.out.println(toonDatumTijd());
-        String formatHeader = "%20s | %10s | %10s | %10s | %10s | %10s | %10s\n";
-        String formatAttractie = "%20s | %10s | %10s | %10s | %10.2f | %10s | %10s \n";
-        System.out.printf(formatHeader, "Naam attractie", "Draait", "Wachtrij", "Kaartjes", "Omzet", "Onderhoud", "Belasting");
+        String formatHeader = "%20s | %10s | %10s | %10s | %10s | %10s\n";
+        String formatAttractie = "%20s | %10s | %10s | %10s | %10.2f | %10s\n";
+        System.out.printf(formatHeader, "Naam attractie", "Draait", "Wachtrij", "Kaartjes", "Omzet", "Onderhoud");
         String onderhoud;
         double belasting;
         for (Attractie attractie : attracties) {
@@ -54,7 +54,7 @@ public class Kermis {
                 belasting = 0;
             }
             System.out.printf(formatAttractie, attractie.getNaam(), attractie.isActief() ? "Ja" : "Nee", attractie.getWachtrij() + "/" + attractie.getCapaciteit(),
-                    attractie.getKaartjes(), attractie.getOmzet(), onderhoud, belasting == 0 ? "-" : String.format("%10.2f", belasting));
+                    attractie.getKaartjes(), attractie.getOmzet(),onderhoud);
         }
         //System.out.printf("Totale omzet: %.2f | Belating\n", kassa.getOmzet()-kassa.getBetaaldeKansSpelBelasting());
         toonBelastingen();
@@ -95,6 +95,7 @@ public class Kermis {
                         onderhoudUitvoeren();
                         break;
                     case 'r':
+                        System.out.println("\n===== MELDINGEN VANAF DE KERMIS =====");
                         verdeelBezoekers();
                         System.out.println("Todo: nog implementeren");
                         break;
@@ -106,9 +107,10 @@ public class Kermis {
                 }
             }
 
-            System.out.println("\n===== MELDINGEN VANAF DE KERMIS =====");
+
             if (input.matches("[0-9]+")) {
                 aantalKaartjes = Integer.valueOf(input);
+                System.out.println("\n===== MELDINGEN VANAF DE KERMIS =====");
                 verdeelBezoekers(aantalKaartjes);
             }
 

@@ -10,6 +10,9 @@ public class Attractie {
     private int kaartjes;       // verkochte kaartjes
     private double minimumBezetting = 0.6;  // bij deze bezettingsgraad start attractie indien wachtrij leeg
     private double omzet;
+    double omzetWaaroverBelastingIsGeheven;
+    private int wachtronde;
+    private int wachtLimiet = 2;
 
     public double getOmzetWaaroverBelastingIsGeheven() {
         return omzetWaaroverBelastingIsGeheven;
@@ -19,9 +22,7 @@ public class Attractie {
         this.omzetWaaroverBelastingIsGeheven = omzetWaaroverBelastingIsGeheven;
     }
 
-    double omzetWaaroverBelastingIsGeheven;
-    private int wachtronde;
-    private int wachtLimiet = 2;
+
 
 
     Attractie() {
@@ -85,7 +86,7 @@ public class Attractie {
             if (checkVoldoendeBezoekers()) {
                 start();
             } else {
-                if ( wachtronde >= wachtLimiet){
+                if ( wachtrij > 0 && wachtronde >= wachtLimiet){
                     wachtronde = 0;
                     start();
                 } else {
