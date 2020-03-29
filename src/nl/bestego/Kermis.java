@@ -84,7 +84,7 @@ public class Kermis {
             prompt += "\t- (B)elasting innen\n";
             prompt += "\t- (O)nderhoud uitvoeren\n";
             prompt += "\t- (S)toppen\n";
-            String input = ih.getInput("[0-9]+|[a-zA-Z]+", prompt, "ongeldige invoer, probeer opnieww:");
+            String input = ih.getInput("[0-9]+|[rbos]+", prompt, "ongeldige invoer, probeer opnieww:");
 
             if (input.toLowerCase().matches("[a-z]+")) {
                 switch (input.toLowerCase().charAt(0)) {
