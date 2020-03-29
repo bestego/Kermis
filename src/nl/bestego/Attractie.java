@@ -10,6 +10,16 @@ public class Attractie {
     private int kaartjes;       // verkochte kaartjes
     private double minimumBezetting = 0.6;  // bij deze bezettingsgraad start attractie indien wachtrij leeg
     private double omzet;
+
+    public double getOmzetWaaroverBelastingIsGeheven() {
+        return omzetWaaroverBelastingIsGeheven;
+    }
+
+    public void setOmzetWaaroverBelastingIsGeheven(double omzetWaaroverBelastingIsGeheven) {
+        this.omzetWaaroverBelastingIsGeheven = omzetWaaroverBelastingIsGeheven;
+    }
+
+    double omzetWaaroverBelastingIsGeheven;
     private int wachtronde;
     private int wachtLimiet = 2;
 
